@@ -43,7 +43,7 @@ namespace ApplicationCore.Services
                 if (promotionType == null || promotionType.Equals("0"))
                 {
                     promotions = (await _promotionService.GetAsync(filter: el =>
-                            el.Status == (int)AppConstant.EnvVar.PromotionStatus.PUBLISH
+                            el.Status == (int) AppConstant.EnvVar.PromotionStatus.PUBLISH
                             && el.Brand.BrandCode == channelParam.BrandCode
                             && el.Brand.Store.Any(x => x.StoreCode == channelParam.StoreCode)
                             && !el.IsAuto
@@ -61,9 +61,9 @@ namespace ApplicationCore.Services
                 else if (promotionType.Equals("3"))
                 {
                     promotions = (await _promotionService.GetAsync(filter: el =>
-                            el.Status == (int)AppConstant.EnvVar.PromotionStatus.PUBLISH
+                            el.Status == (int) AppConstant.EnvVar.PromotionStatus.PUBLISH
                             && el.Brand.BrandCode == channelParam.BrandCode
-                            && el.PromotionType == (int)EnvVar.PromotionType.Using_Voucher
+                            && el.PromotionType == (int) EnvVar.PromotionType.Using_Voucher
                             && el.Brand.Store.Any(x => x.StoreCode == channelParam.StoreCode)
                             && !el.IsAuto
                             // && el.Voucher.Any(a => !a.IsRedemped && !a.IsUsed)
@@ -80,9 +80,9 @@ namespace ApplicationCore.Services
                 else if (promotionType.Equals("2"))
                 {
                     promotions = (await _promotionService.GetAsync(filter: el =>
-                            el.Status == (int)AppConstant.EnvVar.PromotionStatus.PUBLISH
+                            el.Status == (int) AppConstant.EnvVar.PromotionStatus.PUBLISH
                             && el.Brand.BrandCode == channelParam.BrandCode
-                            && el.PromotionType == (int)EnvVar.PromotionType.Using_PromoCode
+                            && el.PromotionType == (int) EnvVar.PromotionType.Using_PromoCode
                             && el.Brand.Store.Any(x => x.StoreCode == channelParam.StoreCode)
                             && !el.IsAuto
                             // && el.Voucher.Any(a => !a.IsRedemped && !a.IsUsed)
@@ -171,7 +171,7 @@ namespace ApplicationCore.Services
             }
             catch (Exception e)
             {
-                throw new ErrorObj(code: (int)HttpStatusCode.InternalServerError, message: e.Message);
+                throw new ErrorObj(code: (int) HttpStatusCode.InternalServerError, message: e.Message);
             }
         }
         public async Task<VoucherForChannelResponse> GetVouchersForChannel(VoucherChannelParam channelParam)
@@ -233,7 +233,7 @@ namespace ApplicationCore.Services
             }
             catch (Exception e2)
             {
-                throw new ErrorObj(code: (int)HttpStatusCode.InternalServerError, message: e2.Message);
+                throw new ErrorObj(code: (int) HttpStatusCode.InternalServerError, message: e2.Message);
             }
         }
 
@@ -308,7 +308,7 @@ namespace ApplicationCore.Services
             }
             catch (Exception e)
             {
-                throw new ErrorObj(code: (int)HttpStatusCode.InternalServerError, message: e.Message,
+                throw new ErrorObj(code: (int) HttpStatusCode.InternalServerError, message: e.Message,
                     description: AppConstant.ErrMessage.Internal_Server_Error);
             }
         }
@@ -326,7 +326,7 @@ namespace ApplicationCore.Services
             {
                 if (channel.ApiKey != param.ApiKey)
                 {
-                    throw new ErrorObj(code: (int)AppConstant.ErrCode.ApiKey_Not_Exist,
+                    throw new ErrorObj(code: (int) AppConstant.ErrCode.ApiKey_Not_Exist,
                         message: AppConstant.ErrMessage.ApiKey_Not_Exist);
                 }
 
@@ -337,14 +337,14 @@ namespace ApplicationCore.Services
                 }
                 catch (Exception)
                 {
-                    throw new ErrorObj(code: (int)AppConstant.ErrCode.HashData_Not_Valid,
+                    throw new ErrorObj(code: (int) AppConstant.ErrCode.HashData_Not_Valid,
                         message: AppConstant.ErrMessage.HashData_Not_Valid);
                 }
 
                 OrderAttribute attribute = JsonConvert.DeserializeObject<OrderAttribute>(attributesJson);
                 if (channel.Brand.BrandCode != attribute.StoreInfo.BrandCode)
                 {
-                    throw new ErrorObj(code: (int)AppConstant.ErrCode.BrandCode_Mismatch,
+                    throw new ErrorObj(code: (int) AppConstant.ErrCode.BrandCode_Mismatch,
                         message: AppConstant.ErrMessage.BrandCode_Mismatch);
                 }
                 else
@@ -381,12 +381,12 @@ namespace ApplicationCore.Services
                         BookingDate = param.BookingDate,
                         CartItems = items,
 
-                        Users = new Users
+                        User = new User
                         {
-                            UserName = param.Customer.CustomerName,
-                            UserPhoneNo = param.Customer.CustomerPhoneNo,
-                            UserGender = param.Customer.CustomerGender,
-                            UserLevel = param.Customer.CustomerLevel
+                            CustomerName = param.Customer.CustomerName,
+                            CustomerPhoneNo = param.Customer.CustomerPhoneNo,
+                            CustomerGender = param.Customer.CustomerGender,
+                            CustomerLevel = param.Customer.CustomerLevel
                         },
                         Id = param.Id,
                         ShippingFee = param.ShippingFee,
@@ -409,7 +409,7 @@ namespace ApplicationCore.Services
             {
                 if (channel.ApiKey != param.ApiKey)
                 {
-                    throw new ErrorObj(code: (int)AppConstant.ErrCode.ApiKey_Not_Exist,
+                    throw new ErrorObj(code: (int) AppConstant.ErrCode.ApiKey_Not_Exist,
                         message: AppConstant.ErrMessage.ApiKey_Not_Exist);
                 }
 
@@ -420,7 +420,7 @@ namespace ApplicationCore.Services
                 }
                 catch (Exception)
                 {
-                    throw new ErrorObj(code: (int)AppConstant.ErrCode.HashData_Not_Valid,
+                    throw new ErrorObj(code: (int) AppConstant.ErrCode.HashData_Not_Valid,
                         message: AppConstant.ErrMessage.HashData_Not_Valid);
                 }
 

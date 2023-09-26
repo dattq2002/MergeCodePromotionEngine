@@ -173,7 +173,7 @@ namespace ApplicationCore.Services
                 }
                 else
                 {
-                    throw new ErrorObj(code: (int)HttpStatusCode.BadRequest, message: AppConstant.ErrMessage.Bad_Request);
+                    throw new ErrorObj(code: (int) HttpStatusCode.BadRequest, message: AppConstant.ErrMessage.Bad_Request);
                 }
                 await _unitOfWork.SaveAsync();
                 return param;
@@ -186,7 +186,7 @@ namespace ApplicationCore.Services
             {
                 Debug.WriteLine(e.StackTrace);
                 Debug.WriteLine(e.InnerException);
-                throw new ErrorObj(code: (int)HttpStatusCode.InternalServerError, message: e.Message, description: AppConstant.ErrMessage.Internal_Server_Error);
+                throw new ErrorObj(code: (int) HttpStatusCode.InternalServerError, message: e.Message, description: AppConstant.ErrMessage.Internal_Server_Error);
             }
         }
 
@@ -221,7 +221,7 @@ namespace ApplicationCore.Services
             {
                 Debug.WriteLine(e.StackTrace);
                 Debug.WriteLine(e.InnerException);
-                throw new ErrorObj(code: (int)HttpStatusCode.InternalServerError, message: e.Message, description: AppConstant.ErrMessage.Internal_Server_Error);
+                throw new ErrorObj(code: (int) HttpStatusCode.InternalServerError, message: e.Message, description: AppConstant.ErrMessage.Internal_Server_Error);
             }
         }
 
@@ -327,7 +327,7 @@ namespace ApplicationCore.Services
             {
                 Debug.WriteLine(e.StackTrace);
                 Debug.WriteLine(e.InnerException);
-                throw new ErrorObj(code: (int)HttpStatusCode.InternalServerError, message: e.Message, description: AppConstant.ErrMessage.Internal_Server_Error);
+                throw new ErrorObj(code: (int) HttpStatusCode.InternalServerError, message: e.Message, description: AppConstant.ErrMessage.Internal_Server_Error);
             }
         }
         public async Task<PromotionTierUpdateParam> UpdatePromotionTier(PromotionTierUpdateParam updateParam)
@@ -399,7 +399,7 @@ namespace ApplicationCore.Services
                 }
                 else
                 {
-                    throw new ErrorObj(code: (int)HttpStatusCode.BadRequest, message: AppConstant.ErrMessage.Bad_Request);
+                    throw new ErrorObj(code: (int) HttpStatusCode.BadRequest, message: AppConstant.ErrMessage.Bad_Request);
                 }
                 //await _unitOfWork.SaveAsync();
                 // update condition rule
@@ -426,7 +426,7 @@ namespace ApplicationCore.Services
                 Debug.WriteLine(e.InnerException);
                 Debug.WriteLine(e.ToString());
                 Debug.WriteLine(e.Message);
-                throw new ErrorObj(code: (int)HttpStatusCode.InternalServerError, message: e.Message, description: AppConstant.ErrMessage.Internal_Server_Error);
+                throw new ErrorObj(code: (int) HttpStatusCode.InternalServerError, message: e.Message, description: AppConstant.ErrMessage.Internal_Server_Error);
             }
         }
         async Task<bool> DeleteOldGroups(ConditionRule conditionRuleEntity)
@@ -493,10 +493,8 @@ namespace ApplicationCore.Services
                         productConditionEntity.DelFlg = false;
                         productConditionEntity.UpdDate = DateTime.Now;
                         productConditionEntity.InsDate = DateTime.Now;
-                        productConditionEntity.ProductConditionId = Guid.NewGuid();
                         productConditionRepo.Add(productConditionEntity);
-                        //productCondition.ProductConditionId = productConditionEntity.ProductConditionId;
-                        // -----------------ko đụng -----------------
+                        productCondition.ProductConditionId = productConditionEntity.ProductConditionId;
                         //var products = productCondition.ListProduct;
                         //foreach (var product in products)
                         //{
@@ -510,7 +508,6 @@ namespace ApplicationCore.Services
                         //    };
                         //    mappRepo.Add(mapp);
                         //}
-                        // -----------------ko đụng -----------------
 
                     }
                 }
@@ -524,10 +521,9 @@ namespace ApplicationCore.Services
                         orderConditionEntity.OrderConditionId = Guid.NewGuid();
                         orderConditionEntity.DelFlg = false;
                         orderConditionEntity.UpdDate = DateTime.Now;
-                        orderConditionEntity.OrderConditionId = Guid.NewGuid();
                         orderConditionEntity.InsDate = DateTime.Now;
                         orderConditionRepo.Add(orderConditionEntity);
-                        //orderCondition.OrderConditionId = orderConditionEntity.OrderConditionId;
+                        orderCondition.OrderConditionId = orderConditionEntity.OrderConditionId;
                     }
                 }
             }
@@ -540,19 +536,19 @@ namespace ApplicationCore.Services
             foreach (var promotion in _promotions)
             {
                 //Check promotion is active
-                if (promotion.Status != (int)AppConstant.EnvVar.PromotionStatus.PUBLISH)
+                if (promotion.Status != (int) AppConstant.EnvVar.PromotionStatus.PUBLISH)
                 {
-                    throw new ErrorObj(code: (int)AppConstant.ErrCode.InActive_Promotion, message: AppConstant.ErrMessage.InActive_Promotion, description: AppConstant.ErrMessage.InActive_Promotion);
+                    throw new ErrorObj(code: (int) AppConstant.ErrCode.InActive_Promotion, message: AppConstant.ErrMessage.InActive_Promotion, description: AppConstant.ErrMessage.InActive_Promotion);
                 }
                 //Check promotion is time 
                 if (promotion.StartDate >= orderResponse.CustomerOrderInfo.BookingDate)
                 {
-                    throw new ErrorObj(code: (int)AppConstant.ErrCode.Invalid_Early, message: AppConstant.ErrMessage.Invalid_Time, description: AppConstant.ErrMessage.Invalid_Early);
+                    throw new ErrorObj(code: (int) AppConstant.ErrCode.Invalid_Early, message: AppConstant.ErrMessage.Invalid_Time, description: AppConstant.ErrMessage.Invalid_Early);
                 }
                 //Check promotion is expired
                 if (promotion.EndDate <= orderResponse.CustomerOrderInfo.BookingDate)
                 {
-                    throw new ErrorObj(code: (int)AppConstant.ErrCode.Expire_Promotion, message: AppConstant.ErrMessage.Expire_Promotion, description: AppConstant.ErrMessage.Expire_Promotion);
+                    throw new ErrorObj(code: (int) AppConstant.ErrCode.Expire_Promotion, message: AppConstant.ErrMessage.Expire_Promotion, description: AppConstant.ErrMessage.Expire_Promotion);
                 }
             }
             _checkPromotionHandler.SetPromotions(_promotions);
@@ -573,20 +569,20 @@ namespace ApplicationCore.Services
                     await promotionRepo.SetUnlimitedDate(_mapper.Map<Promotion>(dto));
                 }
                 if ((dto.ForMembership == 1 || dto.ForMembership == 3)
-                && dto.MemberLevelMapping != null
-                && dto.MemberLevelMapping.Count() > 0)
+                    && dto.MemberLevelMapping != null
+                    && dto.MemberLevelMapping.Count() > 0)
                 {
                     await DeleteAndAddMemberLevelMapp(promotionId: dto.PromotionId, levels: dto.MemberLevelMapping.ToList());
                     dto.MemberLevelMapping = null;
                 }
-                var exisPromo = await _repository.GetFirst(filter: o => o.PromotionId.Equals(dto.PromotionId));
-                if (exisPromo == null)
-                {
-                    throw new ErrorObj(code: (int)ErrCode.NotExisted_Product, message: "Promotion not found");
-                }
+                //var exisPromo = await _repository.GetFirst(filter: o => o.PromotionId.Equals(dto.PromotionId));
+                //if (exisPromo == null)
+                //{
+                //    throw new ErrorObj(code: (int) ErrCode.NotExisted_Product, message: "Promotion not found");
+                //}
 
-                exisPromo = _mapper.Map<PromotionDto, Promotion>(dto, exisPromo);
-                Promotion updatePromo = exisPromo;
+                //exisPromo = _mapper.Map<PromotionDto, Promotion>(dto, exisPromo);
+                //Promotion updatePromo = exisPromo;
                 var updateEntity = _mapper.Map<Promotion>(dto);
                 updateEntity = await MapEntityForUpdate(updateEntity, dto);
                 _repository.Update(updateEntity);
@@ -595,7 +591,7 @@ namespace ApplicationCore.Services
             }
             catch (Exception ex)
             {
-                throw new ErrorObj(code: (int)HttpStatusCode.InternalServerError, message: ex.Message);
+                throw new ErrorObj(code: (int) HttpStatusCode.InternalServerError, message: ex.Message);
             }
         }
         private async Task<Promotion> MapEntityForUpdate(Promotion dto, PromotionDto param)
@@ -666,15 +662,15 @@ namespace ApplicationCore.Services
                     dto.IsAuto = entity.IsAuto;
                     if (dto.HasVoucher == false && dto.IsAuto == false)
                     {
-                        dto.PromotionType = (int)AppConstant.EnvVar.PromotionType.Using_PromoCode;
+                        dto.PromotionType = (int) AppConstant.EnvVar.PromotionType.Using_PromoCode;
                     }
                     if (dto.HasVoucher == true && dto.IsAuto == false)
                     {
-                        dto.PromotionType = (int)AppConstant.EnvVar.PromotionType.Using_Voucher;
+                        dto.PromotionType = (int) AppConstant.EnvVar.PromotionType.Using_Voucher;
                     }
                     if (dto.HasVoucher == false && dto.IsAuto == true)
                     {
-                        dto.PromotionType = (int)AppConstant.EnvVar.PromotionType.Automatic;
+                        dto.PromotionType = (int) AppConstant.EnvVar.PromotionType.Automatic;
                     }
 
                 }
@@ -682,7 +678,7 @@ namespace ApplicationCore.Services
             }
             catch (Exception ex)
             {
-                throw new ErrorObj(code: (int)HttpStatusCode.InternalServerError, message: ex.Message);
+                throw new ErrorObj(code: (int) HttpStatusCode.InternalServerError, message: ex.Message);
             }
 
         }
@@ -704,7 +700,7 @@ namespace ApplicationCore.Services
             }
             catch (Exception ex)
             {
-                throw new ErrorObj(code: (int)HttpStatusCode.InternalServerError, message: ex.Message);
+                throw new ErrorObj(code: (int) HttpStatusCode.InternalServerError, message: ex.Message);
             }
 
         }
@@ -1156,7 +1152,7 @@ namespace ApplicationCore.Services
         {
             if (brandId.Equals(Guid.Empty))
             {
-                throw new ErrorObj(code: (int)HttpStatusCode.BadRequest, message: AppConstant.StatisticMessage.BRAND_ID_INVALID, description: AppConstant.ErrMessage.Internal_Server_Error);
+                throw new ErrorObj(code: (int) HttpStatusCode.BadRequest, message: AppConstant.StatisticMessage.BRAND_ID_INVALID, description: AppConstant.ErrMessage.Internal_Server_Error);
             }
             try
             {
@@ -1165,16 +1161,16 @@ namespace ApplicationCore.Services
                     Total = await _repository.CountAsync(filter: o => o.BrandId.Equals(brandId)
                                 && !o.DelFlg),
                     Draft = await _repository.CountAsync(filter: o => o.BrandId.Equals(brandId)
-                                && o.Status == (int)AppConstant.EnvVar.PromotionStatus.DRAFT
+                                && o.Status == (int) AppConstant.EnvVar.PromotionStatus.DRAFT
                                 && !o.DelFlg),
                     Publish = await _repository.CountAsync(filter: o => o.BrandId.Equals(brandId)
-                                && o.Status == (int)AppConstant.EnvVar.PromotionStatus.PUBLISH
+                                && o.Status == (int) AppConstant.EnvVar.PromotionStatus.PUBLISH
                                 && !o.DelFlg),
                     Unpublish = await _repository.CountAsync(filter: o => o.BrandId.Equals(brandId)
-                                && o.Status == (int)AppConstant.EnvVar.PromotionStatus.UNPUBLISH
+                                && o.Status == (int) AppConstant.EnvVar.PromotionStatus.UNPUBLISH
                                 && !o.DelFlg),
                     Expired = await _repository.CountAsync(filter: o => o.BrandId.Equals(brandId)
-                                && o.Status == (int)AppConstant.EnvVar.PromotionStatus.EXPIRED
+                                && o.Status == (int) AppConstant.EnvVar.PromotionStatus.EXPIRED
                                 && !o.DelFlg)
                 };
 
@@ -1183,7 +1179,7 @@ namespace ApplicationCore.Services
             catch (Exception e)
             {
                 Debug.WriteLine(e.StackTrace);
-                throw new ErrorObj(code: (int)HttpStatusCode.InternalServerError, message: AppConstant.StatisticMessage.PROMO_COUNT_ERR, description: AppConstant.ErrMessage.Internal_Server_Error);
+                throw new ErrorObj(code: (int) HttpStatusCode.InternalServerError, message: AppConstant.StatisticMessage.PROMO_COUNT_ERR, description: AppConstant.ErrMessage.Internal_Server_Error);
             }
 
         }
@@ -1274,7 +1270,7 @@ namespace ApplicationCore.Services
             catch (Exception e)
             {
                 Debug.WriteLine(e.StackTrace);
-                throw new ErrorObj(code: (int)HttpStatusCode.InternalServerError, message: e.Message, description: AppConstant.ErrMessage.Internal_Server_Error);
+                throw new ErrorObj(code: (int) HttpStatusCode.InternalServerError, message: e.Message, description: AppConstant.ErrMessage.Internal_Server_Error);
             }
 
         }
@@ -1289,7 +1285,7 @@ namespace ApplicationCore.Services
                     && el.Brand.BrandCode.Equals(orderInfo.Attributes.StoreInfo.BrandCode)
                     && el.StartDate <= orderInfo.BookingDate
                     && (el.EndDate != null ? (el.EndDate >= orderInfo.BookingDate) : true)
-                    && el.Status == (int)AppConstant.EnvVar.PromotionStatus.PUBLISH
+                    && el.Status == (int) AppConstant.EnvVar.PromotionStatus.PUBLISH
                     && !el.DelFlg,
                         includeProperties:
                         "PromotionTier.Action.ActionProductMapping.Product," +
@@ -1313,13 +1309,13 @@ namespace ApplicationCore.Services
                         o => o.PromotionCode.ToLower().Equals(promoCode.ToLower())
                        && !o.DelFlg
                        && o.BrandId.Equals(brandId)
-                       && o.Status != (int)AppConstant.EnvVar.PromotionStatus.EXPIRED);
+                       && o.Status != (int) AppConstant.EnvVar.PromotionStatus.EXPIRED);
                 return promo != null;
             }
             catch (Exception e)
             {
                 Debug.WriteLine(e.InnerException);
-                throw new ErrorObj(code: (int)HttpStatusCode.InternalServerError, message: e.Message, description: AppConstant.ErrMessage.Internal_Server_Error);
+                throw new ErrorObj(code: (int) HttpStatusCode.InternalServerError, message: e.Message, description: AppConstant.ErrMessage.Internal_Server_Error);
             }
 
         }
@@ -1333,7 +1329,7 @@ namespace ApplicationCore.Services
                 var existPromo = await _repository.GetFirst(filter: el => el.PromotionId == promotionId) != null;
                 if (!existPromo)
                 {
-                    throw new ErrorObj(code: (int)HttpStatusCode.NotFound, message: AppConstant.ErrMessage.Not_Found_Resource);
+                    throw new ErrorObj(code: (int) HttpStatusCode.NotFound, message: AppConstant.ErrMessage.Not_Found_Resource);
                 }
                 #endregion
                 #region Update DelFlag của promotion
@@ -1386,7 +1382,7 @@ namespace ApplicationCore.Services
             catch (Exception e)
             {
                 Debug.WriteLine(e.InnerException);
-                throw new ErrorObj(code: (int)HttpStatusCode.InternalServerError, message: e.Message, description: AppConstant.ErrMessage.Internal_Server_Error);
+                throw new ErrorObj(code: (int) HttpStatusCode.InternalServerError, message: e.Message, description: AppConstant.ErrMessage.Internal_Server_Error);
             }
         }
 
@@ -1418,10 +1414,10 @@ namespace ApplicationCore.Services
                 {
                     _repository.Add(promoEntity);
                     var voucherGroupId = dto.VoucherGroupId;
-                    if ((bool)dto.HasVoucher)
-                    {
-                        await CreateTier(voucherGroupId, dto);
-                    }
+                    //if ((bool)dto.HasVoucher)
+                    //{
+                    //    await CreateTier(voucherGroupId, dto);
+                    //}
 
                     await _unitOfWork.SaveAsync();
 
@@ -1435,7 +1431,7 @@ namespace ApplicationCore.Services
             catch (Exception e)
             {
                 Debug.WriteLine(e.InnerException);
-                throw new ErrorObj(code: (int)HttpStatusCode.InternalServerError, message: e.Message, description: AppConstant.ErrMessage.Internal_Server_Error);
+                throw new ErrorObj(code: (int) HttpStatusCode.InternalServerError, message: e.Message, description: AppConstant.ErrMessage.Internal_Server_Error);
             }
 
         }
@@ -1530,7 +1526,7 @@ namespace ApplicationCore.Services
             catch (Exception e)
             {
                 Debug.WriteLine(e.InnerException);
-                throw new ErrorObj(code: (int)HttpStatusCode.InternalServerError, message: e.Message, description: AppConstant.ErrMessage.Internal_Server_Error);
+                throw new ErrorObj(code: (int) HttpStatusCode.InternalServerError, message: e.Message, description: AppConstant.ErrMessage.Internal_Server_Error);
             }
         }
         #endregion

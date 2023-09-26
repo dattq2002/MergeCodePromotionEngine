@@ -1,4 +1,5 @@
 ﻿using Infrastructure.Models;
+using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -15,5 +16,11 @@ namespace Infrastructure.DTOs
         public string Password { get; set; }
 
         public string RoleName { get; set; }
+    }
+
+    public class MemberModel
+    {
+        [Required]
+        public string PhoneNumber { get; set; }
     }
 }

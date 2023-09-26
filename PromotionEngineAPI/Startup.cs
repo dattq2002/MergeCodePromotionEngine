@@ -130,6 +130,14 @@ namespace PromotionEngineAPI
             services.AddScoped<IProductCateService, ProductCategoryService>();
             services.AddScoped<IProductService, ProductService>();
             services.AddScoped<IMemberLevelService, MemberLevelService>();
+            //Customer
+            services.AddScoped<ICustomerService, CustomerService>();
+            //Member
+            services.AddScoped<IMemberService, MemberService>();
+            //MemberWallet
+            services.AddScoped<IMemberWalletService, MemberWalletService>();
+            //MemberShipCard
+            services.AddScoped<IMemberShipCardService, MemberShipCardService>();
 
             //LoginService
             services.AddScoped<ILoginService, LoginService>();
@@ -138,17 +146,6 @@ namespace PromotionEngineAPI
             services.AddScoped<IGameMasterService, GameMasterService>();
             services.AddScoped<ITransactionService, TransactionService>();
             services.AddScoped<IPushNotification, PushNotification>();
-            //MembershipProgram
-            services.AddScoped<IMembershipProgramService, MembershipProgramService>();
-            //WalletType
-            services.AddScoped<IWalletTypeService, WalletTypeService>();
-            //MemberActionType
-            services.AddScoped<IMemberActionTypeService, MemberActionTypeService>();
-            //MemberAction
-            services.AddScoped<IMemberActionService, MemberActionService>();
-            //MembershipLevel
-            services.AddScoped<IMembershipLevelService, MembershipLevelService>();
-
             ChainOfResponsibilityServices(services);
 
             WorkerServices(services);

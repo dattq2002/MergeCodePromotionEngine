@@ -1,7 +1,6 @@
 ﻿using ApplicationCore.Services;
 using Infrastructure.DTOs;
 using Infrastructure.Helper;
-using Infrastructure.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -67,8 +66,8 @@ namespace PromotionEngineAPI.Controllers
             try
             {
                 var rule = await _service.GetFirst(filter: el => el.ConditionRuleId.Equals(id) && !el.DelFlg,
-                                    includeProperties: "ConditionGroup,ConditionGroup.ProductCondition,ConditionGroup.OrderCondition,"
-                                    + "Brand");
+                                    includeProperties: "ConditionGroup,ConditionGroup.ProductCondition,ConditionGroup.OrderCondition," 
+                                    +"Brand");
                 return Ok(await _service.ReorderResult(rule));
             }
             catch (ErrorObj e)
@@ -95,15 +94,8 @@ namespace PromotionEngineAPI.Controllers
 
         [HttpPost]
         public async Task<IActionResult> PostConditionRule(
-            [FromBody] ConditionRuleDtoModel parammodel)
+            [FromBody] ConditionRuleDto param)
         {
-            var param = new ConditionRuleDto()
-            {
-                BrandId = parammodel.BrandId,
-                RuleName = parammodel.RuleName,
-                Description = parammodel.Description,
-                ConditionGroup = parammodel.ConditionGroup
-            };
             try
             {
                 var result = await _service.InsertConditionRule(param);
@@ -113,6 +105,7 @@ namespace PromotionEngineAPI.Controllers
             {
                 return StatusCode(statusCode: e.Code, e);
             }
+
         }
 
         // DELETE: api/ConditionRules/5

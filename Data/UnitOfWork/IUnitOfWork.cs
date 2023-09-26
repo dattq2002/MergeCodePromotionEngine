@@ -59,22 +59,16 @@ namespace Infrastructure.UnitOfWork
         IGenericRepository<GameItems> GameItemsRepository { get; }
         IGenericRepository<GameMaster> GameMasterRepository { get; }
         IGenericRepository<Transaction> TransactionRepository { get; }
-
-        Task<int> SaveAsync();
-
+        //Customer
+        IGenericRepository<Customer> CustomerRepository { get; }
         //Member
         IGenericRepository<Member> MemberRepository { get; }
-
-        //MembershipProgram
-        IGenericRepository<MembershipProgram> MembershipProgramRepository { get; }
-        //WalletType
-        IGenericRepository<WalletType> WalletTypeRepository { get; }
-
-        //MemberActionType
-        IGenericRepository<MemberActionType> MemberActionTypeRepository { get; }
-        //MemberAction
-        IGenericRepository<MemberAction> MemberActionRepository { get; }
-        //MembershipLevel
-        IGenericRepository<MembershipLevel> MembershipLevelRepository { get; }
+        //MemberWallet
+        IGenericRepository<MemberWallet> MemberWalletRepository { get; }
+        //MemberShipCard
+        IGenericRepository<MembershipCard> MemberShipCardRepository { get; }
+        //MemberShipProgram
+        IGenericRepository<MembershipProgram> MemberShipProgramRepository { get; }
+        Task<int> SaveAsync();
     }
 }

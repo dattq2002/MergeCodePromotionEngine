@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Infrastructure.DTOs.WalletType
+namespace Infrastructure.DTOs
 {
     public class WalletTypeDto
     {

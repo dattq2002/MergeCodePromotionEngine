@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Net;
@@ -100,7 +99,7 @@ namespace PromotionEngineAPI.Controllers
                 {
                     orderResponse = new OrderResponseModel
                     {
-                        Code = (int)HttpStatusCode.OK,
+                        Code = (int) HttpStatusCode.OK,
                         Message = AppConstant.EnvVar.Success_Message,
                         Order = new Order
                         {
@@ -169,11 +168,11 @@ namespace PromotionEngineAPI.Controllers
                     Message = e.Message,
                     Order = responseModel
                 };
-                return StatusCode(statusCode: (int)HttpStatusCode.BadRequest, orderResponse);
+                return StatusCode(statusCode: (int) HttpStatusCode.BadRequest, orderResponse);
             }
             orderResponse = new OrderResponseModel
             {
-                Code = (int)HttpStatusCode.OK,
+                Code = (int) HttpStatusCode.OK,
                 Message = AppConstant.EnvVar.Success_Message,
                 Order = responseModel
             };
@@ -234,12 +233,12 @@ namespace PromotionEngineAPI.Controllers
                         Message = e.Message,
                         Order = responseModel
                     };
-                    return StatusCode(statusCode: (int)HttpStatusCode.BadRequest, orderResponse);
+                    return StatusCode(statusCode: (int) HttpStatusCode.BadRequest, orderResponse);
                 }
                 return Ok(orderResponse);
             }
-            else return StatusCode(statusCode: (int)HttpStatusCode.BadRequest,
-                new ErrorObj(code: (int)AppConstant.ErrCode.Signature_Err,
+            else return StatusCode(statusCode: (int) HttpStatusCode.BadRequest,
+                new ErrorObj(code: (int) AppConstant.ErrCode.Signature_Err,
                             message: AppConstant.ErrMessage.Signature_Err,
                             description: AppConstant.ErrMessage.Signature_Err_Description));
         }
@@ -259,7 +258,7 @@ namespace PromotionEngineAPI.Controllers
             [FromQuery] Guid BrandId,
             [FromQuery] string status)
         {
-            if (status == null) return StatusCode(statusCode: (int)HttpStatusCode.BadRequest, new ErrorResponse().BadRequest);
+            if (status == null) return StatusCode(statusCode: (int) HttpStatusCode.BadRequest, new ErrorResponse().BadRequest);
             try
             {
                 var result = await _promotionService.GetAsync(
@@ -298,7 +297,7 @@ namespace PromotionEngineAPI.Controllers
 
         // GET: api/Promotions
         [HttpGet]
-        [Authorize]
+        //[Authorize]
         [Route("search")]
         // api/Promotions?SearchContent=...?pageIndex=...&pageSize=...
         public async Task<IActionResult> SearchPromotion(
@@ -389,11 +388,11 @@ namespace PromotionEngineAPI.Controllers
             {
                 if (id != dto.PromotionId || id.Equals(Guid.Empty) || dto.PromotionId.Equals(Guid.Empty))
                 {
-                    return StatusCode(statusCode: (int)HttpStatusCode.BadRequest, new ErrorObj((int)HttpStatusCode.BadRequest, AppConstant.ErrMessage.Bad_Request));
+                    return StatusCode(statusCode: (int) HttpStatusCode.BadRequest, new ErrorObj((int) HttpStatusCode.BadRequest, AppConstant.ErrMessage.Bad_Request));
                 }
                 if (await _promotionService.GetFirst(filter: o => o.PromotionId.Equals(dto.PromotionId) && !o.DelFlg) == null)
                 {
-                    return StatusCode(statusCode: (int)HttpStatusCode.NotFound, new ErrorObj((int)HttpStatusCode.NotFound, AppConstant.ErrMessage.Not_Found_Resource));
+                    return StatusCode(statusCode: (int) HttpStatusCode.NotFound, new ErrorObj((int) HttpStatusCode.NotFound, AppConstant.ErrMessage.Not_Found_Resource));
                 }
                 if (dto.PromotionStoreMapping != null && dto.PromotionStoreMapping.Count() > 0)
                 {
@@ -413,30 +412,8 @@ namespace PromotionEngineAPI.Controllers
         //[Authorize]
         // POST: api/Promotions
         [HttpPost]
-        public async Task<IActionResult> PostPromotion([FromBody] PromotionModel promomodel)
+        public async Task<IActionResult> PostPromotion([FromBody] PromotionDto dto)
         {
-            var dto = new PromotionDto()
-            {
-                BrandId = promomodel.BrandId,
-                PromotionCode = promomodel.PromotionCode,
-                PromotionName = promomodel.PromotionName,
-                ActionType = promomodel.ActionType,
-                PostActionType = promomodel.PostActionType,
-                ImgUrl = promomodel.ImgUrl,
-                Description = promomodel.Description,
-                StartDate = promomodel.StartDate,
-                EndDate = promomodel.EndDate,
-                Exclusive = promomodel.Exclusive,
-                ApplyBy = promomodel.ApplyBy,
-                SaleMode = promomodel.SaleMode,
-                Gender = promomodel.Gender,
-                PaymentMethod = promomodel.PaymentMethod,
-                ForHoliday = promomodel.ForHoliday,
-                ForMembership = promomodel.ForMembership,
-                DayFilter = promomodel.DayFilter,
-                HourFilter = promomodel.HourFilter,
-                Status = promomodel.Status
-            };
             try
             {
 
@@ -456,7 +433,7 @@ namespace PromotionEngineAPI.Controllers
         {
             if (id == null)
             {
-                return StatusCode(statusCode: (int)HttpStatusCode.BadRequest, new ErrorResponse().BadRequest);
+                return StatusCode(statusCode: (int) HttpStatusCode.BadRequest, new ErrorResponse().BadRequest);
             }
             try
             {
@@ -512,7 +489,7 @@ namespace PromotionEngineAPI.Controllers
         {
             if (!promotionId.Equals(promotionTierParam.PromotionId))
             {
-                return StatusCode(statusCode: (int)HttpStatusCode.BadRequest, new ErrorResponse().BadRequest);
+                return StatusCode(statusCode: (int) HttpStatusCode.BadRequest, new ErrorResponse().BadRequest);
             }
             try
             {
@@ -544,7 +521,7 @@ namespace PromotionEngineAPI.Controllers
         {
             if (!promotionId.Equals(deleteTierRequestParam.PromotionId))
             {
-                return StatusCode(statusCode: (int)HttpStatusCode.BadRequest, new ErrorResponse().BadRequest);
+                return StatusCode(statusCode: (int) HttpStatusCode.BadRequest, new ErrorResponse().BadRequest);
             }
             try
             {
@@ -561,7 +538,7 @@ namespace PromotionEngineAPI.Controllers
         {
             if (!promotionId.Equals(updateParam.PromotionId))
             {
-                return StatusCode(statusCode: (int)HttpStatusCode.BadRequest, new ErrorResponse().BadRequest);
+                return StatusCode(statusCode: (int) HttpStatusCode.BadRequest, new ErrorResponse().BadRequest);
             }
             try
             {
@@ -594,7 +571,7 @@ namespace PromotionEngineAPI.Controllers
             try
             {
                 return Ok(await _promotionService.GetAsync(filter: o => o.BrandId.Equals(brandId)
-                                && o.Status == (int)AppConstant.EnvVar.PromotionStatus.PUBLISH
+                                && o.Status == (int) AppConstant.EnvVar.PromotionStatus.PUBLISH
                                 && !o.IsAuto
                                 && !o.DelFlg,
                                 includeProperties: "PromotionTier.Action,PromotionTier.Gift"));

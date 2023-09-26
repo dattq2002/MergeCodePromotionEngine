@@ -65,7 +65,7 @@ namespace ApplicationCore.Chain
                 }
                 else if (invalidPromotions == 1)
                 {
-                    throw new ErrorObj(code: (int)AppConstant.ErrCode.Invalid_MemberLevel, message: AppConstant.ErrMessage.Invalid_MemberLevel);
+                    throw new ErrorObj(code: (int) AppConstant.ErrCode.Invalid_MemberLevel, message: AppConstant.ErrMessage.Invalid_MemberLevel);
                 }
                 #endregion
             }
@@ -101,7 +101,7 @@ namespace ApplicationCore.Chain
                     }
                     #endregion
                     #region Handle PromotionCode and VoucherCode
-                    if (promotion.PromotionType != 1)
+                    if(promotion.PromotionType != 1)
                     {
                         try
                         {
@@ -112,25 +112,25 @@ namespace ApplicationCore.Chain
                             HandleGender(promotion, order);
                             if (promotion.ForMembership == 2)
                             { // promotion apply for Guest
-                                if (order.CustomerOrderInfo.Users.UserLevel != null && order.CustomerOrderInfo.Users.UserLevel != "")
+                                if (order.CustomerOrderInfo.User.CustomerLevel != null && order.CustomerOrderInfo.User.CustomerLevel != "")
                                 { // nếu là Member => throw error
-                                    throw new ErrorObj(code: (int)AppConstant.ErrCode.Invalid_MemberLevel, message: AppConstant.ErrMessage.Invalid_MemberLevel);
+                                    throw new ErrorObj(code: (int) AppConstant.ErrCode.Invalid_MemberLevel, message: AppConstant.ErrMessage.Invalid_MemberLevel);
                                 }
                             }
                             else if (promotion.ForMembership == 1)
                             { // promotion apply for Member
-                                if (order.CustomerOrderInfo.Users.UserLevel != null && order.CustomerOrderInfo.Users.UserLevel != "")
+                                if (order.CustomerOrderInfo.User.CustomerLevel != null && order.CustomerOrderInfo.User.CustomerLevel != "")
                                 { // nếu là Member => check Member
                                     HandleMemberLevel(promotion, order);
                                 }
                                 else
                                 { // nếu là Guest => throw error
-                                    throw new ErrorObj(code: (int)AppConstant.ErrCode.Invalid_MemberLevel, message: AppConstant.ErrMessage.Invalid_MemberLevel);
+                                    throw new ErrorObj(code: (int) AppConstant.ErrCode.Invalid_MemberLevel, message: AppConstant.ErrMessage.Invalid_MemberLevel);
                                 }
                             }
                             else if (promotion.ForMembership == 0)
                             { // promotion apply for both
-                                if (order.CustomerOrderInfo.Users.UserLevel != null && order.CustomerOrderInfo.Users.UserLevel != "")
+                                if (order.CustomerOrderInfo.User.CustomerLevel != null && order.CustomerOrderInfo.User.CustomerLevel != "")
                                 { // nếu là Member => check Member
                                     HandleMemberLevel(promotion, order);
                                 } // nếu là Guest => bỏ qua check
@@ -146,7 +146,7 @@ namespace ApplicationCore.Chain
                         }
                     }
                     #endregion
-
+                    
                     //HandleMemberLevel(promotion, order);
                 }
                 if (acceptPromotions.Count > 0)
@@ -155,7 +155,7 @@ namespace ApplicationCore.Chain
                 }
                 else if (invalidPromotions == 1)
                 {
-                    throw new ErrorObj(code: (int)AppConstant.ErrCode.Invalid_MemberLevel, message: AppConstant.ErrMessage.Invalid_MemberLevel);
+                    throw new ErrorObj(code: (int) AppConstant.ErrCode.Invalid_MemberLevel, message: AppConstant.ErrMessage.Invalid_MemberLevel);
                 }
             }
             _timeframeHandle.SetPromotions(_promotions);
@@ -174,25 +174,25 @@ namespace ApplicationCore.Chain
             //Nếu như có voucher mới handle Exclusive, còn auto apply thì không check mà trả về cho user chọn
             if (orderInfo.Vouchers != null && orderInfo.Vouchers.Count() > 0)
             {
-                if (_promotions.Any(w => w.Exclusive == (int)AppConstant.EnvVar.Exclusive.GlobalExclusive) && _promotions.Count() > 1)
+                if (_promotions.Any(w => w.Exclusive == (int) AppConstant.EnvVar.Exclusive.GlobalExclusive) && _promotions.Count() > 1)
                 {
-                    throw new ErrorObj(code: (int)AppConstant.ErrCode.Exclusive_Promotion, message: AppConstant.ErrMessage.Exclusive_Promotion);
+                    throw new ErrorObj(code: (int) AppConstant.ErrCode.Exclusive_Promotion, message: AppConstant.ErrMessage.Exclusive_Promotion);
                 }
-                if (_promotions.Where(w => w.Exclusive == (int)AppConstant.EnvVar.Exclusive.ClassExclusiveOrder).Count() > 1)
+                if (_promotions.Where(w => w.Exclusive == (int) AppConstant.EnvVar.Exclusive.ClassExclusiveOrder).Count() > 1)
                 {
-                    throw new ErrorObj(code: (int)AppConstant.ErrCode.Exclusive_Promotion, message: AppConstant.ErrMessage.Exclusive_Promotion);
+                    throw new ErrorObj(code: (int) AppConstant.ErrCode.Exclusive_Promotion, message: AppConstant.ErrMessage.Exclusive_Promotion);
                 }
-                if (_promotions.Where(w => w.Exclusive == (int)AppConstant.EnvVar.Exclusive.ClassExclusiveProduct).Count() > 1)
+                if (_promotions.Where(w => w.Exclusive == (int) AppConstant.EnvVar.Exclusive.ClassExclusiveProduct).Count() > 1)
                 {
-                    throw new ErrorObj(code: (int)AppConstant.ErrCode.Exclusive_Promotion, message: AppConstant.ErrMessage.Exclusive_Promotion);
+                    throw new ErrorObj(code: (int) AppConstant.ErrCode.Exclusive_Promotion, message: AppConstant.ErrMessage.Exclusive_Promotion);
                 }
-                if (_promotions.Where(w => w.Exclusive == (int)AppConstant.EnvVar.Exclusive.ClassExclusiveShipping).Count() > 1)
+                if (_promotions.Where(w => w.Exclusive == (int) AppConstant.EnvVar.Exclusive.ClassExclusiveShipping).Count() > 1)
                 {
-                    throw new ErrorObj(code: (int)AppConstant.ErrCode.Exclusive_Promotion, message: AppConstant.ErrMessage.Exclusive_Promotion);
+                    throw new ErrorObj(code: (int) AppConstant.ErrCode.Exclusive_Promotion, message: AppConstant.ErrMessage.Exclusive_Promotion);
                 }
-                if (_promotions.Where(w => w.Exclusive == (int)AppConstant.EnvVar.Exclusive.ClassExclusiveGift).Count() > 1)
+                if (_promotions.Where(w => w.Exclusive == (int) AppConstant.EnvVar.Exclusive.ClassExclusiveGift).Count() > 1)
                 {
-                    throw new ErrorObj(code: (int)AppConstant.ErrCode.Exclusive_Promotion, message: AppConstant.ErrMessage.Exclusive_Promotion);
+                    throw new ErrorObj(code: (int) AppConstant.ErrCode.Exclusive_Promotion, message: AppConstant.ErrMessage.Exclusive_Promotion);
                 }
             }
             if (autoPromotion != null)
@@ -208,7 +208,7 @@ namespace ApplicationCore.Chain
             if (promotion.PromotionStoreMapping.Where(w => w.Store.StoreCode.Equals
             (order.CustomerOrderInfo.Attributes.StoreInfo.StoreId)).Count() == 0)
             {
-                throw new ErrorObj(code: (int)AppConstant.ErrCode.Invalid_Store, message: AppConstant.ErrMessage.Invalid_Store);
+                throw new ErrorObj(code: (int) AppConstant.ErrCode.Invalid_Store, message: AppConstant.ErrMessage.Invalid_Store);
             }
         }
         #endregion
@@ -217,7 +217,7 @@ namespace ApplicationCore.Chain
         {
             if (!Common.CompareBinary(order.CustomerOrderInfo.Attributes.SalesMode, promotion.SaleMode))
             {
-                throw new ErrorObj(code: (int)AppConstant.ErrCode.Invalid_SaleMode, message: "[SaleMode]" + AppConstant.ErrMessage.Invalid_SaleMode);
+                throw new ErrorObj(code: (int) AppConstant.ErrCode.Invalid_SaleMode, message: "[SaleMode]" + AppConstant.ErrMessage.Invalid_SaleMode);
             }
         }
         #endregion
@@ -226,7 +226,7 @@ namespace ApplicationCore.Chain
         {
             if (!Common.CompareBinary(order.CustomerOrderInfo.Attributes.PaymentMethod, promotion.PaymentMethod))
             {
-                throw new ErrorObj(code: (int)AppConstant.ErrCode.Invalid_PaymentType, message: AppConstant.ErrMessage.Invalid_PaymentType);
+                throw new ErrorObj(code: (int) AppConstant.ErrCode.Invalid_PaymentType, message: AppConstant.ErrMessage.Invalid_PaymentType);
             }
         }
         #endregion
@@ -236,16 +236,16 @@ namespace ApplicationCore.Chain
         {
             if (!Common.CompareBinary(int.Parse(order.CustomerOrderInfo.Attributes.StoreInfo.Applier), promotion.ApplyBy))
             {
-                throw new ErrorObj(code: (int)AppConstant.ErrCode.Invalid_SaleMode, message: "[Applier]" + AppConstant.ErrMessage.Invalid_SaleMode);
+                throw new ErrorObj(code: (int) AppConstant.ErrCode.Invalid_SaleMode, message: "[Applier]" + AppConstant.ErrMessage.Invalid_SaleMode);
             }
         }
         #endregion
         #region Handle Gender
         private void HandleGender(Promotion promotion, Order order)
         {
-            if (!Common.CompareBinary(order.CustomerOrderInfo.Users.UserGender, promotion.Gender))
+            if (!Common.CompareBinary(order.CustomerOrderInfo.User.CustomerGender, promotion.Gender))
             {
-                throw new ErrorObj(code: (int)AppConstant.ErrCode.Invalid_Gender, message: AppConstant.ErrMessage.Invalid_Gender);
+                throw new ErrorObj(code: (int) AppConstant.ErrCode.Invalid_Gender, message: AppConstant.ErrMessage.Invalid_Gender);
             }
         }
         #endregion
@@ -257,9 +257,9 @@ namespace ApplicationCore.Chain
                 //order.CustomerOrderInfo.Customer.CustomerLevel = "Level 2";
                 //if(promotion.ForMembership != 2)
                 //{
-                if (promotion.MemberLevelMapping.Where(w => w.MemberLevel.Name.Equals(order.CustomerOrderInfo.Users.UserLevel)).Count() == 0)
+                if (promotion.MemberLevelMapping.Where(w => w.MemberLevel.Name.Equals(order.CustomerOrderInfo.User.CustomerLevel)).Count() == 0)
                 {
-                    throw new ErrorObj(code: (int)AppConstant.ErrCode.Invalid_MemberLevel, message: AppConstant.ErrMessage.Invalid_MemberLevel);
+                    throw new ErrorObj(code: (int) AppConstant.ErrCode.Invalid_MemberLevel, message: AppConstant.ErrMessage.Invalid_MemberLevel);
                 }
                 //}
 

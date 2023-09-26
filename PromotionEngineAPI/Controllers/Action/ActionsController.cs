@@ -39,8 +39,8 @@ namespace PromotionEngineAPI.Controllers
                 Expression<Func<Infrastructure.Models.Action, bool>> myFilter = el => !el.DelFlg && el.BrandId.Equals(brandId);
                 if (ActionType > 0)
                 {
-                    myFilter = el => !el.DelFlg
-                                     && el.BrandId.Equals(brandId)
+                    myFilter = el => !el.DelFlg 
+                                     && el.BrandId.Equals(brandId) 
                                      && el.ActionType == ActionType;
                 }
                 var result = await _service.GetAsync(
@@ -99,26 +99,8 @@ namespace PromotionEngineAPI.Controllers
             }
         }
         [HttpPost]
-        public async Task<IActionResult> Gift([FromBody] ActionModel actionModel)
+        public async Task<IActionResult> Gift([FromBody] ActionDto dto)
         {
-            var dto = new ActionDto()
-            {
-                Name = actionModel.Name,
-                BrandId = actionModel.BrandId,
-                ActionType = actionModel.ActionType,
-                DiscountType = actionModel.DiscountType,
-                DiscountQuantity = actionModel.DiscountQuantity,
-                DiscountAmount = actionModel.DiscountAmount,
-                DiscountPercentage = actionModel.DiscountPercentage,
-                FixedPrice = actionModel.FixedPrice,
-                MaxAmount = actionModel.MaxAmount,
-                MinPriceAfter = actionModel.MinPriceAfter,
-                OrderLadderProduct = actionModel.OrderLadderProduct,
-                LadderPrice = actionModel.LadderPrice,
-                BundlePrice = actionModel.BundlePrice,
-                BundleQuantity = actionModel.BundleQuantity,
-                BundleStrategy = actionModel.BundleStrategy
-            };
             if (dto.BrandId.Equals(Guid.Empty))
             {
                 return StatusCode((int)HttpStatusCode.BadRequest, new ErrorObj((int)HttpStatusCode.BadRequest, AppConstant.ErrMessage.Bad_Request));

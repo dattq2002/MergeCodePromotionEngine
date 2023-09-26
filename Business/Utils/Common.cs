@@ -109,5 +109,29 @@ namespace ApplicationCore.Utils
             return builder.ToString();
         }
 
+        public static string makeCode(int length)
+        {
+            //string UpperCase = "QWERTYUIOPASDFGHJKLZXCVBNM";
+            //string LowerCase = "qwertyuiopasdfghjklzxcvbnm";
+            string Digits = "1234567890";
+            string allCharacters = Digits;
+            //Random will give random charactors for given length  
+            Random r = new Random();
+            String code = "";
+            for (int i = 0; i < length; i++)
+            {
+                double rand = r.NextDouble();
+                if (i == 0)
+                {
+                    code += Digits.ToCharArray()[(int)Math.Floor(rand * Digits.Length)];
+                }
+                else
+                {
+                    code += allCharacters.ToCharArray()[(int)Math.Floor(rand * allCharacters.Length)];
+                }
+            }
+            return code;
+        }
+
     }
 }

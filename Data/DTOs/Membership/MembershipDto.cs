@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Infrastructure.Models;
+using System;
+using System.Collections.Generic;
 
 namespace Infrastructure.DTOs
 {
@@ -9,5 +11,7 @@ namespace Infrastructure.DTOs
         public string PhoneNumber { get; set; }
         public string Email { get; set; }
         public string Fullname { get; set; }
+
+        public virtual ICollection<Member> Member { get; set; }
     }
 }

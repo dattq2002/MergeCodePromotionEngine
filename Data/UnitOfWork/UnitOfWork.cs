@@ -86,18 +86,17 @@ namespace Infrastructure.UnitOfWork
 
         public IGenericRepository<StoreGameCampaignMapping> StoreGameCampaignMappingRepository { get; set; }
 
+        //Customer
+        public IGenericRepository<Customer> CustomerRepository { get; set; }
+        //Member
         public IGenericRepository<Member> MemberRepository { get; set; }
+        //MemberWallet
+        public IGenericRepository<MemberWallet> MemberWalletRepository { get; set; }
+        //MemberShipCard
+        public IGenericRepository<MembershipCard> MemberShipCardRepository { get; set; }
+        //MemberShipProgram
+        public IGenericRepository<MembershipProgram> MemberShipProgramRepository { get; set; }
 
-        // MembershipProgram
-        public IGenericRepository<MembershipProgram> MembershipProgramRepository { get; set; }
-        //WalletType
-        public IGenericRepository<WalletType> WalletTypeRepository { get; set; }
-        //MemberActionType
-        public IGenericRepository<MemberActionType> MemberActionTypeRepository { get; set; }
-        //MemberAction
-        public IGenericRepository<MemberAction> MemberActionRepository { get; set; }
-        //MembershipLevel
-        public IGenericRepository<MembershipLevel> MembershipLevelRepository { get; set; }
         private void initRepository()
         {
             //Account
@@ -151,16 +150,17 @@ namespace Infrastructure.UnitOfWork
             GameItemsRepository = new GenericRepository<GameItems>(_context);
             TransactionRepository = new GenericRepository<Transaction>(_context);
             StoreGameCampaignMappingRepository = new GenericRepository<StoreGameCampaignMapping>(_context);
+            //Customer
+            CustomerRepository = new GenericRepository<Customer>(_context);
+            //Member
+            MemberRepository = new GenericRepository<Member>(_context);
             //MembershipProgram
-            MembershipProgramRepository = new GenericRepository<MembershipProgram>(_context);
-            //WalletType
-            WalletTypeRepository = new GenericRepository<WalletType>(_context);
-            //MemberActionType
-            MemberActionTypeRepository = new GenericRepository<MemberActionType>(_context);
-            //MemberAction
-            MemberActionRepository = new GenericRepository<MemberAction>(_context);
-            //MembershipLevel
-            MembershipLevelRepository = new GenericRepository<MembershipLevel>(_context);
+            MemberShipProgramRepository = new GenericRepository<MembershipProgram>(_context);
+            //MemberWallet
+            MemberWalletRepository = new GenericRepository<MemberWallet>(_context);
+            //MemberShipCard
+            MemberShipCardRepository = new GenericRepository<MembershipCard>(_context);
+
         }
         public void Dispose()
         {

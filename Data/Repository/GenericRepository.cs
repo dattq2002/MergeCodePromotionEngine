@@ -27,33 +27,6 @@ namespace Infrastructure.Repository
             _dbSet.Add(entity);
         }
 
-        public void Update(TEntity entity)
-        {
-            _dbSet.Attach(entity);
-            _context.Entry(entity).State = EntityState.Modified;
-
-            var entry = _context.Entry(entity);
-            Type type = typeof(TEntity);
-            PropertyInfo[] properties = type.GetProperties();
-
-            foreach (PropertyInfo property in properties)
-            {
-
-                if (property.GetValue(entity, null) == null)
-                {
-                    try
-                    {
-                        entry.Property(property.Name).IsModified = false;
-                    }
-                    catch (InvalidOperationException)
-                    {
-                        entry.Reference(property.Name).IsModified = false;
-                    }
-
-                }
-            }
-        }
-
         public async Task<int> CountAsync(Expression<Func<TEntity, bool>> filter = null)
         {
             IQueryable<TEntity> query = _dbSet;
@@ -155,6 +128,18 @@ namespace Infrastructure.Repository
 
         }
 
+        public void HideDeFlg(Guid id, bool value)
+        {
+            TEntity entity = _dbSet.Find(id);
+            if (entity != null)
+            {
+                _dbSet.Attach(entity);
+                _context.Entry(entity).Property("DelFlg").CurrentValue = value;
+                _context.Entry(entity).Property("UpdDate").CurrentValue = DateTime.Now;
+            }
+
+        }
+
         public void HideUsername(string username, string value)
         {
             TEntity entity = _dbSet.Find(username);
@@ -166,7 +151,32 @@ namespace Infrastructure.Repository
             }
         }
 
+        public void Update(TEntity entity)
+        {
+            _dbSet.Attach(entity);
+            _context.Entry(entity).State = EntityState.Modified;
 
+            var entry = _context.Entry(entity);
+            Type type = typeof(TEntity);
+            PropertyInfo[] properties = type.GetProperties();
+
+            foreach (PropertyInfo property in properties)
+            {
+
+                if (property.GetValue(entity, null) == null)
+                {
+                    try
+                    {
+                        entry.Property(property.Name).IsModified = false;
+                    }
+                    catch (InvalidOperationException)
+                    {
+                        entry.Reference(property.Name).IsModified = false;
+                    }
+
+                }
+            }
+        }
 
 
     }

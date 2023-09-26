@@ -21,4 +21,10 @@ namespace Infrastructure.DTOs.Account
         public Guid BrandId { get; set; }
         public string RoleName { get; set; }
     }
+
+    public class PhoneToken
+    {
+        public string PhoneNumber { get; set; }
+        public string Token { get; set; }
+    }
 }

@@ -45,25 +45,6 @@ namespace ApplicationCore.Services
             }
         }
 
-        public virtual async Task<TDto> UpdateAsync(TDto dto)
-        {
-            try
-            {
-                var entity = _mapper.Map<TEntity>(dto);
-                _repository.Update(entity);
-                await _unitOfWork.SaveAsync();
-                return _mapper.Map<TDto>(entity);
-            }
-            catch (Exception e)
-            {
-                //chạy bằng debug mode để xem log
-                Debug.WriteLine("\n\nError at UpdateAsync: \n" + e.Message);
-                Debug.WriteLine("\n\nError at UpdateAsync: \n" + e.InnerException);
-                Debug.WriteLine("\n\nError at UpdateAsync: \n" + e.StackTrace);
-                throw new ErrorObj(code: (int)HttpStatusCode.InternalServerError, message: e.Message);
-            }
-        }
-
         public virtual async Task<bool> DeleteAsync(Guid id)
         {
 
@@ -90,7 +71,7 @@ namespace ApplicationCore.Services
                 var list = await _repository.Get(pageIndex, pageSize, filter, orderBy, includeProperties);
                 var totalItem = await _repository.CountAsync(filter);
 
-                GenericRespones<TEntity> result = new GenericRespones<TEntity>(items: list.ToList(), size: pageSize, page: pageIndex, total: totalItem, totalpage: (int)Math.Ceiling(totalItem / (double)pageSize));
+                GenericRespones<TEntity> result = new GenericRespones<TEntity>(items: list.ToList(), size:pageSize, page: pageIndex, total: totalItem, totalpage: (int)Math.Ceiling(totalItem / (double)pageSize));
                 return result;
             }
             catch (Exception e)
@@ -116,6 +97,25 @@ namespace ApplicationCore.Services
             }
         }
 
+        public virtual async Task<TDto> UpdateAsync(TDto dto)
+        {
+            try
+            {
+                var entity = _mapper.Map<TEntity>(dto);
+                _repository.Update(entity);
+                await _unitOfWork.SaveAsync();
+                return _mapper.Map<TDto>(entity);
+            }
+            catch (Exception e)
+            {
+                //chạy bằng debug mode để xem log
+                Debug.WriteLine("\n\nError at UpdateAsync: \n" + e.Message);
+                Debug.WriteLine("\n\nError at UpdateAsync: \n" + e.InnerException);
+                Debug.WriteLine("\n\nError at UpdateAsync: \n" + e.StackTrace);
+                throw new ErrorObj(code: (int)HttpStatusCode.InternalServerError, message: e.Message);
+            }
+        }
+
         public virtual async Task<bool> HideAsync(Guid id, string value)
         {
 
@@ -124,6 +124,25 @@ namespace ApplicationCore.Services
                 if (id != null)
                 {
                     _repository.Hide(id, value);
+                }
+                return await _unitOfWork.SaveAsync() > 0;
+            }
+            catch (Exception e)
+            {
+                //chạy bằng debug mode để xem log
+                Debug.WriteLine("\n\nError at HideAsync: \n" + e.Message);
+                throw new ErrorObj(code: (int)HttpStatusCode.InternalServerError, message: e.Message);
+            }
+        }
+
+        public virtual async Task<bool> HideItem(Guid id, bool value)
+        {
+
+            try
+            {
+                if (id != null)
+                {
+                    _repository.HideDeFlg(id, value);
                 }
                 return await _unitOfWork.SaveAsync() > 0;
             }

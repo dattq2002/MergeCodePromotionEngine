@@ -46,7 +46,7 @@ namespace ApplicationCore.Services
                 var vouchers = order.Vouchers;
                 if (vouchers.Select(el => new { el.VoucherCode, el.PromotionCode }).Distinct().Count() < vouchers.Select(el => new { el.VoucherCode, el.PromotionCode }).Count())
                 {
-                    throw new ErrorObj(code: (int)AppConstant.ErrCode.Duplicate_VoucherCode, message: AppConstant.ErrMessage.Duplicate_VoucherCode, description: AppConstant.ErrMessage.Duplicate_VoucherCode);
+                    throw new ErrorObj(code: (int) AppConstant.ErrCode.Duplicate_VoucherCode, message: AppConstant.ErrMessage.Duplicate_VoucherCode, description: AppConstant.ErrMessage.Duplicate_VoucherCode);
                 }
                 var promotions = new List<Promotion>();
                 foreach (var voucherModel in vouchers)
@@ -72,15 +72,15 @@ namespace ApplicationCore.Services
 
                         if (voucher.Count() > 1)
                         {
-                            throw new ErrorObj(code: (int)AppConstant.ErrCode.Duplicate_VoucherCode, message: AppConstant.ErrMessage.Duplicate_VoucherCode, description: AppConstant.ErrMessage.Duplicate_VoucherCode);
+                            throw new ErrorObj(code: (int) AppConstant.ErrCode.Duplicate_VoucherCode, message: AppConstant.ErrMessage.Duplicate_VoucherCode, description: AppConstant.ErrMessage.Duplicate_VoucherCode);
                         }
                         if (voucher.Count() == 0)
                         {
-                            throw new ErrorObj(code: (int)AppConstant.ErrCode.Invalid_VoucherCode, message: AppConstant.ErrMessage.Invalid_VoucherCode, description: AppConstant.ErrMessage.Invalid_VoucherCode);
+                            throw new ErrorObj(code: (int) AppConstant.ErrCode.Invalid_VoucherCode, message: AppConstant.ErrMessage.Invalid_VoucherCode, description: AppConstant.ErrMessage.Invalid_VoucherCode);
                         }
                         if (voucher.First().IsUsed)
                         {
-                            throw new ErrorObj(code: (int)AppConstant.ErrCode.Invalid_VoucherCode, message: AppConstant.ErrMessage.Used_VoucherCode, description: AppConstant.ErrMessage.Used_VoucherCode);
+                            throw new ErrorObj(code: (int) AppConstant.ErrCode.Invalid_VoucherCode, message: AppConstant.ErrMessage.Used_VoucherCode, description: AppConstant.ErrMessage.Used_VoucherCode);
                         }
                         var promotion = voucher.FirstOrDefault().Promotion;
                         promotion.PromotionTier = promotion.PromotionTier.Where(w => w.PromotionTierId == voucher.First().PromotionTierId).ToList();
@@ -106,11 +106,11 @@ namespace ApplicationCore.Services
                     "MemberLevelMapping.MemberLevel"); ;
                         if (promotion.Count() > 1)
                         {
-                            throw new ErrorObj(code: (int)AppConstant.ErrCode.Duplicate_VoucherCode, message: AppConstant.ErrMessage.Duplicate_VoucherCode, description: AppConstant.ErrMessage.Duplicate_VoucherCode);
+                            throw new ErrorObj(code: (int) AppConstant.ErrCode.Duplicate_VoucherCode, message: AppConstant.ErrMessage.Duplicate_VoucherCode, description: AppConstant.ErrMessage.Duplicate_VoucherCode);
                         }
                         if (promotion.Count() == 0)
                         {
-                            throw new ErrorObj(code: (int)AppConstant.ErrCode.Invalid_VoucherCode, message: AppConstant.ErrMessage.Invalid_VoucherCode, description: AppConstant.ErrMessage.Invalid_VoucherCode);
+                            throw new ErrorObj(code: (int) AppConstant.ErrCode.Invalid_VoucherCode, message: AppConstant.ErrMessage.Invalid_VoucherCode, description: AppConstant.ErrMessage.Invalid_VoucherCode);
                         }
                         promotions.Add(promotion.FirstOrDefault());
                     }
@@ -118,7 +118,7 @@ namespace ApplicationCore.Services
                 }
                 if (promotions.Select(s => s.PromotionId).Distinct().Count() < promotions.Select(s => s.PromotionId).Count())
                 {
-                    throw new ErrorObj(code: (int)AppConstant.ErrCode.Duplicate_Promotion, message: AppConstant.ErrMessage.Duplicate_Promotion);
+                    throw new ErrorObj(code: (int) AppConstant.ErrCode.Duplicate_Promotion, message: AppConstant.ErrMessage.Duplicate_Promotion);
                 }
                 return promotions;
             }
@@ -132,7 +132,7 @@ namespace ApplicationCore.Services
             {
                 Debug.WriteLine("\n\nError at CheckVoucher: \n" + e.Message);
 
-                throw new ErrorObj(code: (int)HttpStatusCode.InternalServerError, message: e.Message, description: AppConstant.ErrMessage.Internal_Server_Error);
+                throw new ErrorObj(code: (int) HttpStatusCode.InternalServerError, message: e.Message, description: AppConstant.ErrMessage.Internal_Server_Error);
             }
 
 
@@ -141,14 +141,14 @@ namespace ApplicationCore.Services
         public async Task<List<Voucher>> GetVouchersForChannel(PromotionChannelMapping voucherChannel, VoucherGroup voucherGroup, VoucherChannelParam channelParam)
         {
 
-            int remainVoucher = (int)(voucherGroup.Quantity - voucherGroup.RedempedQuantity);
+            int remainVoucher = (int) (voucherGroup.Quantity - voucherGroup.RedempedQuantity);
             if (remainVoucher == 0)
             {
-                throw new ErrorObj(code: (int)AppConstant.ErrCode.Voucher_OutOfStock, message: AppConstant.ErrMessage.Voucher_OutOfStock);
+                throw new ErrorObj(code: (int) AppConstant.ErrCode.Voucher_OutOfStock, message: AppConstant.ErrMessage.Voucher_OutOfStock);
             }
             if (channelParam.Quantity > remainVoucher)
             {
-                throw new ErrorObj(code: (int)AppConstant.ErrCode.Invalid_VoucherQuantity, message: AppConstant.ErrMessage.Invalid_VoucherQuantity + remainVoucher);
+                throw new ErrorObj(code: (int) AppConstant.ErrCode.Invalid_VoucherQuantity, message: AppConstant.ErrMessage.Invalid_VoucherQuantity + remainVoucher);
             }
 
             var vouchers = await _repository.Get(
@@ -199,12 +199,12 @@ namespace ApplicationCore.Services
                     return new VoucherParamResponse(voucherGroupId: entity.VoucherGroupId, voucherGroupName: entity.VoucherName,
                         voucherId: voucher.VoucherId, code: promoCode + "-" + voucher.VoucherCode, description: description);
                 }
-                throw new ErrorObj(code: (int)HttpStatusCode.BadRequest, message: null);
+                throw new ErrorObj(code: (int) HttpStatusCode.BadRequest, message: null);
             }
             catch (Exception e)
             {
 
-                throw new ErrorObj(code: (int)HttpStatusCode.InternalServerError, message: e.Message);
+                throw new ErrorObj(code: (int) HttpStatusCode.InternalServerError, message: e.Message);
             }
         }
 
@@ -251,7 +251,7 @@ namespace ApplicationCore.Services
             {
                 Debug.WriteLine("\n\nError at CheckVoucher: \n" + e.Message);
 
-                throw new ErrorObj(code: (int)HttpStatusCode.InternalServerError, message: e.Message);
+                throw new ErrorObj(code: (int) HttpStatusCode.InternalServerError, message: e.Message);
             }
         }
         public async Task<int> UpdateVoucherOther(Guid transactionId, CustomerOrderInfo orderInfo, Guid promotionTierId, Channel channel, Store store)
@@ -273,7 +273,7 @@ namespace ApplicationCore.Services
                     {
                         if (voucher.IsUsed)
                         {
-                            throw new ErrorObj(code: (int)HttpStatusCode.BadRequest, message: AppConstant.ErrMessage.Used_VoucherCode);
+                            throw new ErrorObj(code: (int) HttpStatusCode.BadRequest, message: AppConstant.ErrMessage.Used_VoucherCode);
                         }
                         else
                         {
@@ -294,9 +294,9 @@ namespace ApplicationCore.Services
                             MembershipDto membership = new MembershipDto
                             {
                                 MembershipId = Guid.NewGuid(),
-                                Email = orderInfo.Users.UserEmail,
-                                Fullname = orderInfo.Users.UserName,
-                                PhoneNumber = orderInfo.Users.UserPhoneNo
+                                Email = orderInfo.User.CustomerEmail,
+                                Fullname = orderInfo.User.CustomerName,
+                                PhoneNumber = orderInfo.User.CustomerPhoneNo
                             };
                             var result = await _membershipService.CreateAsync(membership);
                             if (result != null)
@@ -321,7 +321,7 @@ namespace ApplicationCore.Services
             {
                 Debug.WriteLine("\n\nError at CheckVoucher: \n" + e.Message);
 
-                throw new ErrorObj(code: (int)HttpStatusCode.InternalServerError, message: e.Message);
+                throw new ErrorObj(code: (int) HttpStatusCode.InternalServerError, message: e.Message);
             }
         }
         private async Task UpdateVoucherGroupAfterApplied(VoucherGroup voucherGroup)
@@ -351,7 +351,7 @@ namespace ApplicationCore.Services
                     && !el.IsRedemped
                     && !el.Promotion.DelFlg
                     && el.PromotionTierId == tierId
-                    && el.Promotion.Status == (int)AppConstant.EnvVar.PromotionStatus.PUBLISH,
+                    && el.Promotion.Status == (int) AppConstant.EnvVar.PromotionStatus.PUBLISH,
                     includeProperties:
                     "Promotion.PromotionChannelMapping.Channel," +
                     "VoucherGroup.Brand," +
@@ -370,7 +370,7 @@ namespace ApplicationCore.Services
                 }
                 else
                 {
-                    throw new ErrorObj(code: (int)HttpStatusCode.BadRequest, message: AppConstant.ErrMessage.Voucher_OutOfStock);
+                    throw new ErrorObj(code: (int) HttpStatusCode.BadRequest, message: AppConstant.ErrMessage.Voucher_OutOfStock);
                 }
                 return param;
             }
@@ -380,7 +380,7 @@ namespace ApplicationCore.Services
             }
             catch (Exception e)
             {
-                throw new ErrorObj(code: (int)HttpStatusCode.InternalServerError, message: e.Message);
+                throw new ErrorObj(code: (int) HttpStatusCode.InternalServerError, message: e.Message);
             }
 
 
@@ -416,7 +416,7 @@ namespace ApplicationCore.Services
             }
             catch (Exception e)
             {
-                throw new ErrorObj(code: (int)HttpStatusCode.InternalServerError, e.Message);
+                throw new ErrorObj(code: (int) HttpStatusCode.InternalServerError, e.Message);
             }
             finally
             {
@@ -479,7 +479,7 @@ namespace ApplicationCore.Services
             }
             else
             {
-                throw new ErrorObj(code: (int)HttpStatusCode.BadRequest, message: AppConstant.ErrMessage.Invalid_Channel_Distribute);
+                throw new ErrorObj(code: (int) HttpStatusCode.BadRequest, message: AppConstant.ErrMessage.Invalid_Channel_Distribute);
             }
             //}
 

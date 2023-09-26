@@ -341,11 +341,9 @@ namespace ApplicationCore.Services
                         productConditionEntity.DelFlg = false;
                         productConditionEntity.UpdDate = DateTime.Now;
                         productConditionEntity.InsDate = DateTime.Now;
-                        productConditionEntity.ProductConditionId = Guid.NewGuid();
                         productConditionRepo.Add(productConditionEntity);
-                        //productCondition.ProductConditionId = productConditionEntity.ProductConditionId;
-                        //------------------ko đụng------------------
-                        ////var products = productCondition.ListProduct;
+                        productCondition.ProductConditionId = productConditionEntity.ProductConditionId;
+                        //var products = productCondition.ListProduct;
                         //foreach (var product in products)
                         //{
                         //    var mapp = new ProductConditionMapping()
@@ -357,8 +355,7 @@ namespace ApplicationCore.Services
                         //        InsDate = DateTime.Now,
                         //    };
                         //    mappRepo.Add(mapp);
-                        ////}
-                        //------------------ko đụng------------------
+                        //}
 
                     }
                 }
@@ -373,9 +370,8 @@ namespace ApplicationCore.Services
                         orderConditionEntity.DelFlg = false;
                         orderConditionEntity.UpdDate = DateTime.Now;
                         orderConditionEntity.InsDate = DateTime.Now;
-                        orderConditionEntity.OrderConditionId = Guid.NewGuid();
                         orderConditionRepo.Add(orderConditionEntity);
-                        //orderCondition.OrderConditionId = orderConditionEntity.OrderConditionId;
+                        orderCondition.OrderConditionId = orderConditionEntity.OrderConditionId;
                     }
                 }
             }

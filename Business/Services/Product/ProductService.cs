@@ -87,7 +87,7 @@ namespace ApplicationCore.Services
             {
                 //chạy bằng debug mode để xem log
                 Debug.WriteLine("\n\nError at getVoucherForGame: \n" + e.StackTrace);
-                throw new ErrorObj(code: (int)HttpStatusCode.InternalServerError, message: e.Message);
+                throw new ErrorObj(code: (int) HttpStatusCode.InternalServerError, message: e.Message);
             }
 
         }
@@ -130,7 +130,7 @@ namespace ApplicationCore.Services
             {
                 //chạy bằng debug mode để xem log
                 Debug.WriteLine("\n\nError at getVoucherForGame: \n" + e.StackTrace);
-                throw new ErrorObj(code: (int)HttpStatusCode.InternalServerError, message: e.Message);
+                throw new ErrorObj(code: (int) HttpStatusCode.InternalServerError, message: e.Message);
             }
         }
 
@@ -182,7 +182,7 @@ namespace ApplicationCore.Services
             {
                 //chạy bằng debug mode để xem log
                 Debug.WriteLine("\n\nError at getVoucherForGame: \n" + e.StackTrace);
-                throw new ErrorObj(code: (int)HttpStatusCode.InternalServerError, message: e.Message);
+                throw new ErrorObj(code: (int) HttpStatusCode.InternalServerError, message: e.Message);
             }
 
         }
@@ -302,7 +302,7 @@ namespace ApplicationCore.Services
             catch (Exception e)
             {
                 Debug.WriteLine("\n\nError at getVoucherForGame: \n" + e.Message);
-                throw new ErrorObj(code: (int)HttpStatusCode.InternalServerError, message: e.Message);
+                throw new ErrorObj(code: (int) HttpStatusCode.InternalServerError, message: e.Message);
             }
 
         }
@@ -335,7 +335,7 @@ namespace ApplicationCore.Services
             catch (Exception e)
             {
                 Debug.WriteLine("\n\nError at getVoucherForGame: \n" + e.Message);
-                throw new ErrorObj(code: (int)HttpStatusCode.InternalServerError, message: e.Message);
+                throw new ErrorObj(code: (int) HttpStatusCode.InternalServerError, message: e.Message);
             }
             finally
             {
@@ -380,7 +380,7 @@ namespace ApplicationCore.Services
             catch (Exception e)
             {
                 Debug.WriteLine("\n\nError at getVoucherForGame: \n" + e.Message);
-                throw new ErrorObj(code: (int)HttpStatusCode.InternalServerError, message: e.Message);
+                throw new ErrorObj(code: (int) HttpStatusCode.InternalServerError, message: e.Message);
 
             }
 
@@ -420,14 +420,14 @@ namespace ApplicationCore.Services
                 }
                 else
                 {
-                    throw new ErrorObj(code: (int)AppConstant.ErrCode.Product_Cate_NotFound, message: AppConstant.ErrMessage.Product_Cate_NotFound);
+                    throw new ErrorObj(code: (int) AppConstant.ErrCode.Product_Cate_NotFound, message: AppConstant.ErrMessage.Product_Cate_NotFound);
                 }
             }
             catch (Exception e)
             {
                 //chạy bằng debug mode để xem log
                 Debug.WriteLine("\n\nError at getVoucherForGame: \n" + e.Message);
-                throw new ErrorObj(code: (int)HttpStatusCode.InternalServerError, message: e.Message);
+                throw new ErrorObj(code: (int) HttpStatusCode.InternalServerError, message: e.Message);
             }
         }
         public async Task<PromotionInfomation> CheckGiftProduct(ProductDto productDto)
@@ -445,7 +445,7 @@ namespace ApplicationCore.Services
                         .Include(x => x.VoucherGroup).FirstOrDefault();
                     if (promotionTier.VoucherGroupId == null)
                     {
-                        throw new ErrorObj(code: (int)HttpStatusCode.NotFound, message: "Không tìm thấy promotionTier");
+                        throw new ErrorObj(code: (int) HttpStatusCode.NotFound, message: "Không tìm thấy promotionTier");
                     }
 
                     promotionTier.VoucherGroup.Quantity += 1;
@@ -453,7 +453,7 @@ namespace ApplicationCore.Services
                     promotionTier.VoucherQuantity += 1;
                     _context.PromotionTier.Update(promotionTier);
                     _context.SaveChanges();
-                    var voucherGroup = _mapper.Map<VoucherGroupDto>(promotionTier.VoucherGroup);
+                    var voucherGroup = _mapper.Map<VoucherGroupDto>(promotionTier.VoucherGroup); 
                     _voucherService.InsertVouchers(voucherDto: voucherGroup);
                     await _voucherGroupService.AddMoreVoucher((Guid)promotionTier.VoucherGroupId, 1);
                     // await _voucherGroupService.GenerateVoucher((Guid)promotionTier.VoucherGroupId, 1);
@@ -528,7 +528,7 @@ namespace ApplicationCore.Services
             {
                 //chạy bằng debug mode để xem log
                 Debug.WriteLine("\n\nError at getVoucherForGame: \n" + e.StackTrace);
-                throw new ErrorObj(code: (int)HttpStatusCode.InternalServerError, message: e.Message);
+                throw new ErrorObj(code: (int) HttpStatusCode.InternalServerError, message: e.Message);
             }
         }
         private ActionDto CreateAction(ProductDto productDto)
@@ -574,8 +574,8 @@ namespace ApplicationCore.Services
             ProductConditionMapping productConditionMapping = new ProductConditionMapping
             {
                 ProductId = productDto.ProductId,
-                InsDate = (DateTime)productDto.InsDate,
-                UpdDate = (DateTime)productDto.UpdDate
+                InsDate = (DateTime) productDto.InsDate,
+                UpdDate = (DateTime) productDto.UpdDate
             };
             List<ProductConditionMapping> listProductConditionMapping = new List<ProductConditionMapping>();
             listProductConditionMapping.Add(productConditionMapping);
@@ -594,7 +594,7 @@ namespace ApplicationCore.Services
             {
                 GroupNo = 0,
                 NextOperator = 1,
-                //ProductCondition = listProductConditionDto,
+                ProductCondition = listProductConditionDto,
             };
             List<ConditionGroupDto> listConditionGroupDto = new List<ConditionGroupDto>();
             listConditionGroupDto.Add(conditionGroupDto);

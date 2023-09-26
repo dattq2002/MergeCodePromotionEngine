@@ -1,11 +1,6 @@
 ﻿using ApplicationCore.Models;
 using AutoMapper;
 using Infrastructure.DTOs;
-using Infrastructure.DTOs.MemberAction;
-using Infrastructure.DTOs.MemberActionType;
-using Infrastructure.DTOs.MembershipLevel;
-using Infrastructure.DTOs.MembershipProgram;
-using Infrastructure.DTOs.WalletType;
 using Infrastructure.Models;
 
 namespace Infrastructure.AutoMapper
@@ -135,28 +130,43 @@ namespace Infrastructure.AutoMapper
 
             CreateMap<MemberLevelMapping, MemberLevelMappingDto>();
             CreateMap<MemberLevelMappingDto, MemberLevelMapping>();
+
             CreateMap<GameCampaign, GameCampaignDto>();
             CreateMap<GameCampaignDto, GameCampaign>();
+
             CreateMap<GameItemDto, GameItems>();
             CreateMap<GameItems, GameItemDto>();
+
             CreateMap<GameMasterDto, GameMaster>();
             CreateMap<GameMaster, GameMasterDto>();
-            //---------------------------------//
-            //MembershipProgram 
+
+            //MemberWallet 
+            CreateMap<MemberWallet, MemberWalletDto>();
+            CreateMap<MemberWalletDto, MemberWallet>();
+
+            //WalletType
+            CreateMap<WalletTypeDto, WalletType>();
+            CreateMap<MemberWalletDto, MemberWallet>();
+
+            //Member	
+            CreateMap<Member, MemberDto>();
+            CreateMap<MemberDto, Member>();
+
+            //Customer
+            CreateMap<Customer, CustomerDto>();
+            CreateMap<CustomerDto, Customer>();
+
+            //MembershipProgram
             CreateMap<MembershipProgram, MembershipProgramDto>();
             CreateMap<MembershipProgramDto, MembershipProgram>();
-            //WalletType
-            CreateMap<WalletType, WalletTypeDto>();
-            CreateMap<WalletTypeDto, WalletType>();
-            //MemberActionType
-            CreateMap<MemberActionType, MemberActionTypeDto>();
-            CreateMap<MemberActionTypeDto, MemberActionType>();
-            //MemberAction
-            CreateMap<MemberAction, MemberActionDto>();
-            CreateMap<MemberActionDto, MemberAction>();
-            //MembershipLevel
-            CreateMap<MembershipLevel, MembershipLevelDto>();
-            CreateMap<MembershipLevelDto, MembershipLevel>();
+
+            //MemberWallet
+            CreateMap<MemberWallet, MemberWalletDto>();
+            CreateMap<MemberWalletDto, MemberWallet>();
+
+            //MemberShipCard
+            CreateMap<MembershipCard, MemberShipCardDto>();
+            CreateMap<MemberShipCardDto, MembershipCard>();
         }
     }
 }

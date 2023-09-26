@@ -18,6 +18,7 @@ namespace Infrastructure.Repository
         void Delete(Guid id, Expression<Func<TEntity, bool>> filter = null);
         void Update(TEntity entity);
         void Hide(Guid id, string value);
+        void HideDeFlg(Guid id, bool value);
         Task<int> CountAsync(Expression<Func<TEntity, bool>> filter = null);
         void DeleteUsername(string username);
         void HideUsername(string username, string value);

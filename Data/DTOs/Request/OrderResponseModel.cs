@@ -47,7 +47,7 @@ namespace ApplicationCore.Request
         public CustomerOrderInfo()
         {
             CartItems = new List<Item>();
-            Users = new Users();
+            User = new User();
         }
         public string ApiKey { get; set; }
         public string Id { get; set; }
@@ -59,7 +59,7 @@ namespace ApplicationCore.Request
         public List<CouponCode> Vouchers { get; set; }
         public decimal Amount { get; set; }
         public decimal ShippingFee { get; set; }
-        public Users Users { get; set; }
+        public User User { get; set; }
 
     }
     public class OrderAttribute
@@ -114,16 +114,16 @@ namespace ApplicationCore.Request
         public string UrlImg { get; set; }
         public string PromotionCodeApply { get; set; }
     }
-    public class Users
+    public class User
     {
         [StringLength(100)]
-        public string UserName { get; set; }
+        public string CustomerName { get; set; }
         [StringLength(100)]
-        public string UserEmail { get; set; }
+        public string CustomerEmail { get; set; }
         [StringLength(12)]
-        public string UserPhoneNo { get; set; }
-        public int UserGender { get; set; } = 3;
+        public string CustomerPhoneNo { get; set; }
+        public int CustomerGender { get; set; } = 3;
         [StringLength(100)]
-        public string UserLevel { get; set; }
+        public string CustomerLevel { get; set; }
     }
 }

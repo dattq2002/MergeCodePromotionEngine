@@ -22,7 +22,7 @@ namespace ApplicationCore.Chain
         {
             if (_condition is MembershipConditionModel)
             {
-                var customer = order.CustomerOrderInfo.Users;
+                var customer = order.CustomerOrderInfo.User;
                 HandleMembershipLevel((MembershipConditionModel)_condition, customer);
             }
             else
@@ -31,11 +31,11 @@ namespace ApplicationCore.Chain
             }
         }
 
-        public void HandleMembershipLevel(MembershipConditionModel membershipCondition, Users user)
+        public void HandleMembershipLevel(MembershipConditionModel membershipCondition, User customer)
         {
-            if (!string.IsNullOrEmpty(user.UserLevel))
+            if (!string.IsNullOrEmpty(customer.CustomerLevel))
             {
-                if (!membershipCondition.MembershipLevel.Contains(user.UserLevel))
+                if (!membershipCondition.MembershipLevel.Contains(customer.CustomerLevel))
                 {
                     membershipCondition.IsMatch = false;
                 }

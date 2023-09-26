@@ -4,13 +4,13 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Infrastructure.DTOs
 {
-    public class ConditionGroupDto : BaseDto
+    public class ConditionGroupDto :BaseDto
     {
-        public Guid ConditionGroupId { get; set; } = Guid.NewGuid();
+        public Guid ConditionGroupId { get; set; }
         public int GroupNo { get; set; }
         public int NextOperator { get; set; }
         public string Summary { get; set; } = "";
-        public ICollection<OrderConditionDtoModel> OrderCondition { get; set; }
-        public ICollection<ProductConditionModelA> ProductCondition { get; set; }
+        public ICollection<OrderConditionDto> OrderCondition { get; set; }
+        public ICollection<ProductConditionDto> ProductCondition { get; set; }
     }
 }
